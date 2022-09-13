@@ -3,20 +3,26 @@ package spl.assignment.encryption;
 import java.util.Random;
 import java.util.Arrays;
 
-public class SeededEncDec implements EncrypterDecrypter{
+public class SeededEncDec extends EncrypterDecrypter{
     private final long seed;
 
+    public SeededEncDec(EncrypterDecrypter parent, long seed) {
+        super(parent);
+        this.seed = seed;
+    }
+
     public SeededEncDec(long seed) {
+        super(null);
         this.seed=seed;
     }
 
     @Override
-    public byte[] decrypt(byte[] in) {
+    public byte[] decryptApply(byte[] in) {
         return this.apply(in, false);
     }
 
     @Override
-    public byte[] encrypt(byte[] in) {
+    public byte[] encryptApply(byte[] in) {
         return this.apply(in, true);
     }
 

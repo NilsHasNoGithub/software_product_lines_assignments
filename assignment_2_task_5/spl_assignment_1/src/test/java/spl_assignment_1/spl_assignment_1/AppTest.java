@@ -76,4 +76,14 @@ public class AppTest {
 
 
     }
+
+    @Test
+    public void testEncDec() {
+        String test = "test";
+
+        byte[] encrypted = Main.ENC_DEC.encryptString(test);
+        String decrypted = Main.ENC_DEC.decryptToString(encrypted);
+
+        assertEquals(test, decrypted);
+    }
 }

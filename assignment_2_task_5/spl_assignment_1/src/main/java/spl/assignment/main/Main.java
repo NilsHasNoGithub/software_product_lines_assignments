@@ -8,15 +8,13 @@ import java.awt.GridLayout;
 
 import spl.assignment.client.Client;
 import spl.assignment.encryption.EncrypterDecrypter;
-import spl.assignment.encryption.ListOfEncDecs;
 import spl.assignment.encryption.Reverser;
 import spl.assignment.encryption.SeededEncDec;
 import spl.assignment.server.Server;
 
 public class Main {
 
-    public static final EncrypterDecrypter ENC_DEC = new ListOfEncDecs(
-            new EncrypterDecrypter[] { new Reverser(), new SeededEncDec(42) });
+    public static final EncrypterDecrypter ENC_DEC = new Reverser(new SeededEncDec(42));
 
     private static void startServer() {
         int port = Integer.parseInt(JOptionPane.showInputDialog("Enter Port Number"));
