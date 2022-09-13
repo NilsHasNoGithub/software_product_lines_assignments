@@ -35,6 +35,8 @@ public class Main {
         serverThread.start();
 
         ServerGui gui = new ServerGui(server);
+        server.addObserver(gui);
+        
         gui.show();
 
     }

@@ -14,8 +14,10 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 import spl.assignment.server.Server;
+import spl.assignment.server.ServerObserver;
 
-public class ServerGui {
+
+public class ServerGui implements ServerObserver{
 
     private final Server server;
 
@@ -25,7 +27,6 @@ public class ServerGui {
     private final JLabel infoLabel;
     private final JTextArea logField;
 
-    private final Thread refreshThread;
 
     public ServerGui(Server server) {
         this.server = server;
@@ -65,28 +66,6 @@ public class ServerGui {
         logField = new JTextArea();
         logField.setEditable(false);
         mainPanel.add(new JScrollPane(logField));
-
-
-        Runnable refresher = new Runnable() {
-
-            @Override
-            public void run() {
-                while(true) {
-                    update();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                
-            }
-        
-        };
-
-        refreshThread = new Thread(refresher);
-        refreshThread.start();
-        
         // infoLabel.setText(String.format("Port:", args));
 
     }
@@ -99,6 +78,11 @@ public class ServerGui {
 
     public void show() {
         this.mainFrame.setVisible(true);
+    }
+
+    @Override
+    public void eventOccurred() {
+        update();
     }
 
 }

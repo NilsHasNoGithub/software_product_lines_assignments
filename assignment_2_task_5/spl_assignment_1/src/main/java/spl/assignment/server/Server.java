@@ -28,6 +28,7 @@ public class Server {
 	private Logger logger;
 
 	private final ArrayList<Message> messages;
+	private final ArrayList<ServerObserver> observers;
 	
 
 	public Server(int port, EncrypterDecrypter encDec) {
@@ -35,8 +36,13 @@ public class Server {
 		this.encDec = encDec;
 		this.run = new AtomicBoolean(true);
 		this.messages = new ArrayList<>();
+		this.observers = new ArrayList<>();
 		this.logger = new Logger("server");
 		this.logger.log("================ Server started =================");
+	}
+
+	public synchronized void addObserver(ServerObserver observer) {
+		this.observers.add(observer);
 	}
 
 	public void stop() {
@@ -64,9 +70,9 @@ public class Server {
 
 		if (type.equals("sendMsg")) {
 			JSONObject msgObj = requestObj.getJSONObject("message");
-			this.messages.add(Message.fromJson(msgObj));
-			// Log
-			this.logger.log("Received message:" + msgObj.toString());
+			Message message = Message.fromJson(msgObj);
+			this.messages.add(message);
+			this.notifyObserversMsg(message);
 		}
 
 		if (type.equals("stop")) {
@@ -86,13 +92,31 @@ public class Server {
 		return port;
 	}
 
+	private synchronized void notifyObserversMsg(Message msg) {
+		for (ServerObserver observer : this.observers) {
+			observer.messageReceived(msg);
+		}
+	}
+
+	private synchronized void notifyObserversClient(Socket socket) {
+		for (ServerObserver observer : this.observers) {
+			observer.clientConnected(socket);
+		}
+	}
+
+	private synchronized void notifyObserversError(Exception e) {
+		for (ServerObserver observer : this.observers) {
+			observer.errorEncountered(e);
+		}
+	}
+
 	public void blockingStart() {
 		try (ServerSocket srv = new ServerSocket(this.port)) {
 			while (this.run.get()) {
 				try {
 					Socket socket = srv.accept();
 					// Log
-					this.logger.log("New connection accepted, socket: " + socket.toString());
+					this.notifyObserversClient(socket);
 
 					DataInputStream is = new DataInputStream(socket.getInputStream());
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
@@ -109,7 +133,7 @@ public class Server {
 					socket.close();
 				} catch (Exception e) {
 					// Log
-					this.logger.log("New connection refused, got error: " + e.getMessage());
+					this.notifyObserversError(e);
 					e.printStackTrace();
 				}
 			}
