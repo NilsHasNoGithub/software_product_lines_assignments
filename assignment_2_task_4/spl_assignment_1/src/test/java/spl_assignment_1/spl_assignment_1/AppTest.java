@@ -16,6 +16,7 @@ import spl.assignment.main.Main;
 import spl.assignment.server.Server;
 import spl.assignment.utils.Logger;
 import spl.assignment.utils.Message;
+import spl.assignment.conf.Conf;
 
 /**
  * Unit test for simple App.
