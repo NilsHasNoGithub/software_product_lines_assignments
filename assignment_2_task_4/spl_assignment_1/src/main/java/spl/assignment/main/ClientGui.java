@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 
 import spl.assignment.client.Client;
+import spl.assignment.conf.Conf;
 import spl.assignment.utils.Message;
 
 public class ClientGui {
@@ -145,6 +146,10 @@ public class ClientGui {
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
         south.add(colorPanel);
         south.add(newMessagePanel);
+
+        // If color is disabled, hide colorPanel
+        if (!Conf.getInstance().color)
+            colorPanel.setVisible(false);
 
         mainPanel.add(south, BorderLayout.SOUTH);
 

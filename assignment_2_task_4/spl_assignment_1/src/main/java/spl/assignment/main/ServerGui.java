@@ -64,8 +64,11 @@ public class ServerGui {
 
         logField = new JTextArea();
         logField.setEditable(false);
-        if (Conf.getInstance().logging)
-            mainPanel.add(new JScrollPane(logField));
+        mainPanel.add(new JScrollPane(logField));
+
+        // If logging is disabled, hide logField
+        if (!Conf.getInstance().logging)
+            logField.setVisible(false);
 
         Runnable refresher = new Runnable() {
 
