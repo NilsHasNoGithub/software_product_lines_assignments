@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import spl.assignment.conf.Conf;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.utils.Communication;
 import spl.assignment.utils.Logger;
@@ -16,27 +17,26 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import org.json.*;
 
-
 public class Server {
 	public static final String PASSWORD = "123456789";
 
 	private final int port;
-	
 
 	private final AtomicBoolean run;
 	private final EncrypterDecrypter encDec;
 	private Logger logger;
 
 	private final ArrayList<Message> messages;
-	
 
 	public Server(int port, EncrypterDecrypter encDec) {
 		this.port = port;
 		this.encDec = encDec;
 		this.run = new AtomicBoolean(true);
 		this.messages = new ArrayList<>();
-		this.logger = new Logger("server");
-		this.logger.log("================ Server started =================");
+		if (Conf.getInstance().logging) {
+			this.logger = new Logger("server");
+			this.logger.log("================ Server started =================");
+		}
 	}
 
 	public void stop() {
@@ -48,7 +48,7 @@ public class Server {
 	}
 
 	// Getters
-	public Logger getLogger(){
+	public Logger getLogger() {
 		return this.logger;
 	}
 
@@ -57,7 +57,7 @@ public class Server {
 	 * @param jsonRequest
 	 * @return The response
 	 */
-	private String handleRequest(String jsonRequest) throws JSONException{
+	private String handleRequest(String jsonRequest) throws JSONException {
 		JSONObject requestObj = new JSONObject(jsonRequest);
 
 		String type = requestObj.getString("type");
@@ -66,7 +66,8 @@ public class Server {
 			JSONObject msgObj = requestObj.getJSONObject("message");
 			this.messages.add(Message.fromJson(msgObj));
 			// Log
-			this.logger.log("Received message:" + msgObj.toString());
+			if (Conf.getInstance().logging)
+				this.logger.log("Received message:" + msgObj.toString());
 		}
 
 		if (type.equals("stop")) {
@@ -92,11 +93,11 @@ public class Server {
 				try {
 					Socket socket = srv.accept();
 					// Log
-					this.logger.log("New connection accepted, socket: " + socket.toString());
+					if (Conf.getInstance().logging)
+						this.logger.log("New connection accepted, socket: " + socket.toString());
 
 					DataInputStream is = new DataInputStream(socket.getInputStream());
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
-
 
 					String password = Communication.retrieveAndDecrypt(this.encDec, is);
 
@@ -109,13 +110,17 @@ public class Server {
 					socket.close();
 				} catch (Exception e) {
 					// Log
-					this.logger.log("New connection refused, got error: " + e.getMessage());
+					if (Conf.getInstance().logging)
+						this.logger.log("New connection refused, got error: " + e.getMessage());
+
 					e.printStackTrace();
 				}
 			}
 
 		} catch (IOException e) {
-			this.logger.log("Server failed to start, got error: " + e.getMessage());
+			if (Conf.getInstance().logging)
+				this.logger.log("Server failed to start, got error: " + e.getMessage());
+
 			e.printStackTrace();
 		}
 	}

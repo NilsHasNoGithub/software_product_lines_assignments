@@ -1,6 +1,6 @@
 package spl.assignment.conf;
 
-public class Conf{
+public class Conf {
 
     // Config variables
     public boolean color = false;
@@ -8,17 +8,17 @@ public class Conf{
     public boolean logging = false;
 
     // Private constructor
-    private Conf(){}
+    private Conf() {
+    }
 
     // Single instance variable
     private static Conf single_instance = null;
 
     // Static method to create instance of Conf class
-    public static Conf getInstance()
-    {
+    public static Conf getInstance() {
         if (single_instance == null)
             single_instance = new Conf();
-  
+
         return single_instance;
     }
 }

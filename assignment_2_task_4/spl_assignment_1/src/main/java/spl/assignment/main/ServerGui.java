@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+import spl.assignment.conf.Conf;
 import spl.assignment.server.Server;
 
 public class ServerGui {
@@ -34,7 +35,6 @@ public class ServerGui {
         mainFrame.setTitle("Server");
         mainFrame.setSize(500, 500);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
@@ -57,21 +57,21 @@ public class ServerGui {
                 // TODO Auto-generated method stub
                 System.exit(0);
             }
-            
+
         });
         infoAndStopButton.add(stopButton);
         mainPanel.add(infoAndStopButton);
 
         logField = new JTextArea();
         logField.setEditable(false);
-        mainPanel.add(new JScrollPane(logField));
-
+        if (Conf.getInstance().logging)
+            mainPanel.add(new JScrollPane(logField));
 
         Runnable refresher = new Runnable() {
 
             @Override
             public void run() {
-                while(true) {
+                while (true) {
                     update();
                     try {
                         Thread.sleep(500);
@@ -79,23 +79,24 @@ public class ServerGui {
                         e.printStackTrace();
                     }
                 }
-                
+
             }
-        
+
         };
 
         refreshThread = new Thread(refresher);
         refreshThread.start();
-        
+
         // infoLabel.setText(String.format("Port:", args));
 
     }
 
     private void update() {
-        String logs = this.server.getLogger().getFullLog();
-        logField.setText(logs);
+        if (Conf.getInstance().logging) {
+            String logs = this.server.getLogger().getFullLog();
+            logField.setText(logs);
+        }
     }
-
 
     public void show() {
         this.mainFrame.setVisible(true);
