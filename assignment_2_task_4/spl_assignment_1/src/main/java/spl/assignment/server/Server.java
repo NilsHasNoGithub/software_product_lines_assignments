@@ -40,10 +40,8 @@ public class Server {
 
 		this.run = new AtomicBoolean(true);
 		this.messages = new ArrayList<>();
-		if (Conf.getInstance().logging) {
-			this.logger = new Logger("server");
-			this.logger.log("================ Server started =================");
-		}
+		this.logger = new Logger("server");
+		this.logger.log("================ Server started =================");
 	}
 
 	public void stop() {
@@ -73,8 +71,7 @@ public class Server {
 			JSONObject msgObj = requestObj.getJSONObject("message");
 			this.messages.add(Message.fromJson(msgObj));
 			// Log
-			if (Conf.getInstance().logging)
-				this.logger.log("Received message:" + msgObj.toString());
+			this.logger.log("Received message:" + msgObj.toString());
 		}
 
 		if (type.equals("stop")) {
@@ -100,8 +97,7 @@ public class Server {
 				try {
 					Socket socket = srv.accept();
 					// Log
-					if (Conf.getInstance().logging)
-						this.logger.log("New connection accepted, socket: " + socket.toString());
+					this.logger.log("New connection accepted, socket: " + socket.toString());
 
 					DataInputStream is = new DataInputStream(socket.getInputStream());
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
@@ -117,16 +113,14 @@ public class Server {
 					socket.close();
 				} catch (Exception e) {
 					// Log
-					if (Conf.getInstance().logging)
-						this.logger.log("New connection refused, got error: " + e.getMessage());
+					this.logger.log("New connection refused, got error: " + e.getMessage());
 
 					e.printStackTrace();
 				}
 			}
 
 		} catch (IOException e) {
-			if (Conf.getInstance().logging)
-				this.logger.log("Server failed to start, got error: " + e.getMessage());
+			this.logger.log("Server failed to start, got error: " + e.getMessage());
 
 			e.printStackTrace();
 		}

@@ -67,8 +67,7 @@ public class ServerGui {
         mainPanel.add(new JScrollPane(logField));
 
         // If logging is disabled, hide logField
-        if (!Conf.getInstance().logging)
-            logField.setVisible(false);
+        logField.setVisible(false);
 
         Runnable refresher = new Runnable() {
 
@@ -95,10 +94,8 @@ public class ServerGui {
     }
 
     private void update() {
-        if (Conf.getInstance().logging) {
-            String logs = this.server.getLogger().getFullLog();
-            logField.setText(logs);
-        }
+        String logs = this.server.getLogger().getFullLog();
+        logField.setText(logs);
     }
 
     public void show() {

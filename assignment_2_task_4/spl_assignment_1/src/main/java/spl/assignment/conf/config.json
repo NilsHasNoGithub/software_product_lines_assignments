@@ -1,0 +1,7 @@
+{
+    "messageColor": true,
+    "encryption": true,
+    "loggingToFile": true,
+    "loggingToConsole": true,
+    "serverGUI": true
+}

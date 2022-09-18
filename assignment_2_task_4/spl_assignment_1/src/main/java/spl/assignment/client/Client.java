@@ -50,10 +50,8 @@ public class Client {
 
         this.username = username;
         this.password = password;
-        if (Conf.getInstance().logging) {
-            this.logger = new Logger("client_" + username);
-            this.logger.log("================ Client started =================");
-        }
+        this.logger = new Logger("client_" + username);
+        this.logger.log("================ Client started =================");
     }
 
     // Getters
@@ -91,8 +89,7 @@ public class Client {
     public List<Message> sendMessage(String content, int r, int g, int b) throws IOException {
         Message message = new Message(content, username, r, g, b);
 
-        if (Conf.getInstance().logging)
-            this.logger.log("Sending message: " + message.toString());
+        this.logger.log("Sending message: " + message.toString());
 
         return sendRequest(makeMsgRequest(message));
     }
@@ -111,13 +108,11 @@ public class Client {
             msgs = new JSONArray(Communication.retrieveAndDecrypt(encDec, is));
 
         } catch (IOException e) {
-            if (Conf.getInstance().logging)
-                this.logger.log("IO error: " + e.toString());
+            this.logger.log("IO error: " + e.toString());
 
             throw e;
         }
 
         return Message.messagesFromJson(msgs);
     }
-
 }

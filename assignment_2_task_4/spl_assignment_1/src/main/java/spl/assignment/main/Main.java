@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 
 import spl.assignment.client.Client;
+import spl.assignment.conf.Conf;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.encryption.ListOfEncDecs;
 import spl.assignment.encryption.Reverser;
@@ -36,8 +37,10 @@ public class Main {
         Thread serverThread = new Thread(serverRunnable);
         serverThread.start();
 
-        ServerGui gui = new ServerGui(server);
-        gui.show();
+        if (Conf.getInstance().serverGUI) {
+            ServerGui gui = new ServerGui(server);
+            gui.show();
+        }
 
     }
 

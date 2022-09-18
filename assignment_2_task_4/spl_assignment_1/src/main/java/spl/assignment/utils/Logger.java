@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import spl.assignment.conf.Conf;
 
 /**
  * Implements thread safe logger
@@ -16,10 +17,9 @@ public class Logger {
     private final String fileName;
     private final List<String> logs;
 
-
     // Constructor
     public Logger(String fileName) {
-        this.fileName = "logs/" + fileName  + ".txt";
+        this.fileName = "logs/" + fileName + ".txt";
         this.logs = new ArrayList<>();
     }
 
@@ -48,13 +48,21 @@ public class Logger {
 
     // Write to file
     public synchronized void log(String msg) {
-        this.createFolder();
-        this.logs.add(msg + "\n");
-        try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
-            myWriter.write(msg);
-            myWriter.write(System.getProperty("line.separator"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Write to file
+        if (Conf.getInstance().loggingToFile) {
+            this.createFolder();
+            this.logs.add(msg + "\n");
+            try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
+                myWriter.write(msg);
+                myWriter.write(System.getProperty("line.separator"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Write to console
+        if (Conf.getInstance().loggingToConsole) {
+            System.out.println(msg);
         }
     }
 }
