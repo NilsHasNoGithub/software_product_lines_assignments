@@ -1,22 +1,14 @@
 package spl.assignment.encryption;
 
-public class Reverser extends EncrypterDecrypter {
-
-    public Reverser(EncrypterDecrypter child) {
-        super(child);
-    }
-
-    public Reverser() {
-        super(null);
-    }
+public class Reverser implements EncrypterDecrypter {
 
     @Override
-    public byte[] decryptApply(byte[] bts) {
+    public byte[] decrypt(byte[] bts) {
         return this.apply(bts);
     }
 
     @Override
-    public byte[] encryptApply(byte[] bts) {
+    public byte[] encrypt(byte[] bts) {
         return this.apply(bts);
     }
 
