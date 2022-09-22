@@ -12,6 +12,7 @@ import org.junit.Test;
 import spl.assignment.client.Client;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.encryption.Reverser;
+import spl.assignment.main.ClientCui;
 import spl.assignment.main.Main;
 import spl.assignment.server.Server;
 import spl.assignment.utils.Logger;
@@ -35,6 +36,9 @@ public class AppTest {
         final Server server = new Server(port, encDec);
         final Client client1 = new Client(port, string, encDec, "client1", Server.PASSWORD);
         final Client client2 = new Client(port, string, encDec, "client2", Server.PASSWORD);
+
+        ClientCui cui1 = new ClientCui(client1);
+        ClientCui cui2 = new ClientCui(client2);
 
         // Create loggers
         server.getLogger().log("Server log initialized");
