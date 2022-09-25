@@ -6,12 +6,14 @@ import java.util.EventListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import javax.swing.text.JTextComponent;
 
 import spl.assignment.server.Server;
 
@@ -23,9 +25,11 @@ public class ServerGui {
     private final JPanel mainPanel;
     private final JButton stopButton;
     private final JLabel infoLabel;
-    private final JTextArea logField;
-
-    private final Thread refreshThread;
+    private final JComponent logField;
+    
+    //#if LOGGING
+//@    private final Thread refreshThread;
+    //#endif
 
     public ServerGui(Server server) {
         this.server = server;
@@ -61,40 +65,48 @@ public class ServerGui {
         });
         infoAndStopButton.add(stopButton);
         mainPanel.add(infoAndStopButton);
-
-        logField = new JTextArea();
-        logField.setEditable(false);
-        mainPanel.add(new JScrollPane(logField));
-
-
-        Runnable refresher = new Runnable() {
-
-            @Override
-            public void run() {
-                while(true) {
-                    update();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                
-            }
         
-        };
+        //#if LOGGING
+//@        logField = new JTextArea();
+//@        ((JTextArea) logField).setEditable(false);
+//@        mainPanel.add(new JScrollPane(logField));
+        //#else
+        logField = new JLabel("logging disabled");
+        mainPanel.add(logField);
+        //#endif
 
-        refreshThread = new Thread(refresher);
-        refreshThread.start();
+        //#if LOGGING
+//@        Runnable refresher = new Runnable() {
+//@
+//@            @Override
+//@            public void run() {
+//@                while(true) {
+//@                    update();
+//@                    try {
+//@                        Thread.sleep(500);
+//@                    } catch (InterruptedException e) {
+//@                        e.printStackTrace();
+//@                    }
+//@                }
+//@                
+//@            }
+//@        
+//@        };
+//@
+//@        refreshThread = new Thread(refresher);
+//@        refreshThread.start();
+        //#endif
         
         // infoLabel.setText(String.format("Port:", args));
 
     }
-
-    private void update() {
-        String logs = this.server.getLogger().getFullLog();
-        logField.setText(logs);
-    }
+    
+    //#if LOGGING
+//@    private void update() {
+//@        String logs = this.server.getLogger().getFullLog();
+//@        logField.setText(logs);
+//@    }
+    //#endif
 
 
     public void show() {

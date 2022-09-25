@@ -44,8 +44,10 @@ public class Main {
     private static void startClient() {
         JTextField hostField = new JTextField();
         JTextField portField = new JTextField();
-        JTextField passwordField = new JTextField();
-        passwordField.setText("123456789");
+        //#if AUTHENTICATION
+//@        JTextField passwordField = new JTextField();
+//@        passwordField.setText("123456789");
+        //#endif
         JTextField usernameField = new JTextField();
 
         JPanel pane = new JPanel();
@@ -55,8 +57,10 @@ public class Main {
         pane.add(hostField);
         pane.add(new JLabel("Port:"));
         pane.add(portField);
-        pane.add(new JLabel("Password:"));
-        pane.add(passwordField);
+        //#if AUTHENTICATION
+//@        pane.add(new JLabel("Password:"));
+//@        pane.add(passwordField);
+        //#endif
         pane.add(new JLabel("Username:"));
         pane.add(usernameField);
 
@@ -65,11 +69,15 @@ public class Main {
         if (result == JOptionPane.OK_OPTION) {
             String host = hostField.getText();
             int port = Integer.parseInt(portField.getText());
-            String password = passwordField.getText();
+            //#if AUTHENTICATION
+//@            String password = passwordField.getText();
+            //#endif
             String username = usernameField.getText();
-
-            Client client = new Client(port, host, ENC_DEC, username, password);
-
+            //#if AUTHENTICATION
+//@            Client client = new Client(port, host, ENC_DEC, username, password);
+            //#else
+            Client client = new Client(port, host, ENC_DEC, username);
+            //#endif
             ClientGui gui = new ClientGui(client);
             gui.show();
         }
@@ -78,10 +86,10 @@ public class Main {
 
     public static void main(String[] args) {
         //#ifdef TEST
-        System.out.println("TEST MODE ON");
+//@        System.out.println("TEST MODE ON");
         //#endif
         //#ifndef TEST
-//@        System.out.println("TEST MODE OFF");
+        System.out.println("TEST MODE OFF");
         //#endif
 
         String[] options = new String[] { "Server", "Client" };

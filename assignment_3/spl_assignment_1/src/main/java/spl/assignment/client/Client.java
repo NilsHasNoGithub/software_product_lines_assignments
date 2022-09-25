@@ -21,7 +21,9 @@ public class Client {
     private String host;
     private EncrypterDecrypter encDec;
     private String username;
-    private String password;
+    //#if AUTHENTICATION
+//@    private String password;
+    //#endif
     private Logger logger;
 
     public String getUsername() {
@@ -35,16 +37,27 @@ public class Client {
     public int getPort() {
         return port;
     }
-
-    public Client(int port, String host, EncrypterDecrypter encDec, String username, String password) {
+    
+    //#if AUTHENTICATION
+//@    public Client(int port, String host, EncrypterDecrypter encDec, String username, String password) {
+//@        this.port = port;
+//@        this.host = host;
+//@        this.encDec = encDec;
+//@        this.username = username;
+//@        this.password = password;
+//@        this.logger = new Logger("client_" + username);
+//@        this.logger.log("================ Client started =================");
+//@    }
+    //#else
+    public Client(int port, String host, EncrypterDecrypter encDec, String username) {
         this.port = port;
         this.host = host;
         this.encDec = encDec;
         this.username = username;
-        this.password = password;
         this.logger = new Logger("client_" + username);
         this.logger.log("================ Client started =================");
     }
+    //#endif
 
     // Getters
     public Logger getLogger(){
@@ -92,8 +105,9 @@ public class Client {
             DataInputStream is = new DataInputStream(socket.getInputStream());
             DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
-
-            Communication.encryptAndSend(this.password, this.encDec, os);
+            //#if AUTHENTICATION
+//@            Communication.encryptAndSend(this.password, this.encDec, os);
+            //#endif
             Communication.encryptAndSend(request.toString(), this.encDec, os);
 
             msgs = new JSONArray(Communication.retrieveAndDecrypt(encDec, is));

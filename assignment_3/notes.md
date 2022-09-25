@@ -36,3 +36,8 @@
     },
 ]
 ```
+
+## Compile options
+```
+REVERSER_ENCRYPTION: boolean
+```

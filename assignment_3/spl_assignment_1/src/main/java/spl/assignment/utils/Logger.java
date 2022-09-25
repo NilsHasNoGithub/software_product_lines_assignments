@@ -35,26 +35,31 @@ public class Logger {
 
         return sb.toString();
     }
-
-    private synchronized void createFolder() {
-        File file = new File(this.fileName);
-        String folder = file.getParent();
-
-        File folderFile = new File(folder);
-        if (!folderFile.isDirectory()) {
-            folderFile.mkdirs();
-        }
-    }
+    
+    //#if LOGGING
+//@    private synchronized void createFolder() {
+//@        File file = new File(this.fileName);
+//@        String folder = file.getParent();
+//@
+//@        File folderFile = new File(folder);
+//@        if (!folderFile.isDirectory()) {
+//@            folderFile.mkdirs();
+//@        }
+//@    }
+    //#endif
 
     // Write to file
     public synchronized void log(String msg) {
-        this.createFolder();
         this.logs.add(msg + "\n");
-        try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
-            myWriter.write(msg);
-            myWriter.write(System.getProperty("line.separator"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //#if LOGGING
+//@        this.createFolder();
+//@        try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
+//@            myWriter.write(msg);
+//@            myWriter.write(System.getProperty("line.separator"));
+//@        } catch (IOException e) {
+//@            e.printStackTrace();
+//@        }
+        //#endif
     }
 }
+
