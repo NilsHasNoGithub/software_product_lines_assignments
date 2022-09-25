@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import spl.assignment.encryption.EncrypterDecrypter;
+import spl.assignment.encryption.NoEncryption;
 import spl.assignment.server.Server;
 import spl.assignment.utils.Communication;
 import spl.assignment.utils.Logger;
@@ -52,7 +53,11 @@ public class Client {
     public Client(int port, String host, EncrypterDecrypter encDec, String username) {
         this.port = port;
         this.host = host;
-        this.encDec = encDec;
+        // If encryption is disabled, use NoEncryption	
+        /*if (Conf.getInstance().encryption)	
+            this.encDec = encDec;	
+        else*/
+            this.encDec = new NoEncryption();
         this.username = username;
         this.logger = new Logger("client_" + username);
         this.logger.log("================ Client started =================");

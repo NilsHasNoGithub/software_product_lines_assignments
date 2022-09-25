@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import spl.assignment.encryption.EncrypterDecrypter;
+import spl.assignment.encryption.NoEncryption;
 import spl.assignment.utils.Communication;
 import spl.assignment.utils.Logger;
 import spl.assignment.utils.Message;
@@ -34,7 +35,11 @@ public class Server {
 
 	public Server(int port, EncrypterDecrypter encDec) {
 		this.port = port;
-		this.encDec = encDec;
+		// If encryption is disabled, use NoEncryption	
+		/*if (Conf.getInstance().encryption)	
+			this.encDec = encDec;	
+		else*/	
+			this.encDec = new NoEncryption();
 		this.run = new AtomicBoolean(true);
 		this.messages = new ArrayList<>();
 		//#if LOGGING

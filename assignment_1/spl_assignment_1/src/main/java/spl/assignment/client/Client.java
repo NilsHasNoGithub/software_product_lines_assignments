@@ -5,13 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import spl.assignment.encryption.EncrypterDecrypter;
-import spl.assignment.server.Server;
 import spl.assignment.utils.Communication;
 import spl.assignment.utils.Logger;
 import spl.assignment.utils.Message;
