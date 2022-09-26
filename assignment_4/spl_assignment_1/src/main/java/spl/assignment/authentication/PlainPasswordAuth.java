@@ -1,4 +1,4 @@
-package spl.assignment.server;
+package spl.assignment.authentication;
 
 public class PlainPasswordAuth implements Authenticator{
     public static String PASSWORD = "123456789";

@@ -3,11 +3,11 @@ package spl.assignment.encryption;
 import java.util.Random;
 import java.util.Arrays;
 
-public class SeededEncDec implements EncrypterDecrypter{
+public class SeededEncDec implements EncrypterDecrypter {
     private final long seed;
 
     public SeededEncDec(long seed) {
-        this.seed=seed;
+        this.seed = seed;
     }
 
     @Override
@@ -34,7 +34,6 @@ public class SeededEncDec implements EncrypterDecrypter{
         for (int i = 0; i < in.length; i++) {
             out[i] += factor * randBytes[i];
         }
-
         
         return out;
     }

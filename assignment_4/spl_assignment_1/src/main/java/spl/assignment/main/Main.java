@@ -7,13 +7,13 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.util.Optional;
 
+import spl.assignment.authentication.Authenticator;
+import spl.assignment.authentication.PlainPasswordAuth;
 import spl.assignment.client.Client;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.encryption.ListOfEncDecs;
 import spl.assignment.encryption.Reverser;
 import spl.assignment.encryption.SeededEncDec;
-import spl.assignment.server.Authenticator;
-import spl.assignment.server.PlainPasswordAuth;
 import spl.assignment.server.Server;
 
 public class Main {

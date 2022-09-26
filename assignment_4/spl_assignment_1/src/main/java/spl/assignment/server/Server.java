@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import spl.assignment.authentication.Authenticator;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.utils.Communication;
 import spl.assignment.utils.Logger;
@@ -109,7 +110,7 @@ public class Server {
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
 					boolean authSucces;
-					
+
 					if (this.authenticator.isPresent()) {
 						String password = Communication.retrieveAndDecrypt(this.encDec, is);
 						authSucces = this.authenticator.get().checkPassword(password);
