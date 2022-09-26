@@ -22,5 +22,13 @@ import spl.assignment.utils.Message;
  * Unit test for simple App.
  */
 public class AppTest {
+  @Test
+  public void testEncryption() {
+	String msg = "abcd";
 
+    byte[] encrypted = Main.ENC_DEC.encryptString(msg);
+    String decrypted = Main.ENC_DEC.decryptToString(encrypted);
+
+    assertEquals(msg, decrypted);
+  }
 }

@@ -23,7 +23,7 @@ public class Client {
     private EncrypterDecrypter encDec;
     private String username;
     //#if AUTHENTICATION
-//@    private String password;
+    private String password;
     //#endif
     private Logger logger;
 
@@ -40,28 +40,28 @@ public class Client {
     }
     
     //#if AUTHENTICATION
-//@    public Client(int port, String host, EncrypterDecrypter encDec, String username, String password) {
-//@        this.port = port;
-//@        this.host = host;
-//@        this.encDec = encDec;
-//@        this.username = username;
-//@        this.password = password;
-//@        this.logger = new Logger("client_" + username);
-//@        this.logger.log("================ Client started =================");
-//@    }
-    //#else
-    public Client(int port, String host, EncrypterDecrypter encDec, String username) {
+    public Client(int port, String host, EncrypterDecrypter encDec, String username, String password) {
         this.port = port;
         this.host = host;
-        // If encryption is disabled, use NoEncryption	
-        /*if (Conf.getInstance().encryption)	
-            this.encDec = encDec;	
-        else*/
-            this.encDec = new NoEncryption();
+        this.encDec = encDec;
         this.username = username;
+        this.password = password;
         this.logger = new Logger("client_" + username);
         this.logger.log("================ Client started =================");
     }
+    //#else
+//@    public Client(int port, String host, EncrypterDecrypter encDec, String username) {
+//@        this.port = port;
+//@        this.host = host;
+//@        // If encryption is disabled, use NoEncryption	
+//@        /*if (Conf.getInstance().encryption)	
+//@            this.encDec = encDec;	
+//@        else*/
+//@            this.encDec = new NoEncryption();
+//@        this.username = username;
+//@        this.logger = new Logger("client_" + username);
+//@        this.logger.log("================ Client started =================");
+//@    }
     //#endif
 
     // Getters
@@ -111,7 +111,7 @@ public class Client {
             DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
             //#if AUTHENTICATION
-//@            Communication.encryptAndSend(this.password, this.encDec, os);
+            Communication.encryptAndSend(this.password, this.encDec, os);
             //#endif
             Communication.encryptAndSend(request.toString(), this.encDec, os);
 

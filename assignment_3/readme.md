@@ -5,4 +5,5 @@ SEEDED_ENCRYPTION: boolean
 COLOR: boolean
 AUTHENTICATION: boolean
 LOGGING: boolean
+GUI: boolean
 ```

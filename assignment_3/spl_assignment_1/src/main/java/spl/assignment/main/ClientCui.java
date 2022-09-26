@@ -54,7 +54,15 @@ public class ClientCui {
         prevMessages.addAll(messages);
 
         for (Message message : messages) {
-            System.out.println(message.getUsername() + ": " + message.getContent());
+        	String toPrint = message.getUsername();
+        	
+        	//#if COLOR
+        	toPrint += ", color (" + message.getR() + ", " + message.getG() + ", " + message.getB() + ")";
+        	//#endif
+        	toPrint += ": " + message.getContent();
+        	
+        	
+            System.out.println(toPrint);
         }
     }
 

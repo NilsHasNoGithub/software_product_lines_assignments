@@ -27,7 +27,7 @@ public class Server {
 	private final AtomicBoolean run;
 	private final EncrypterDecrypter encDec;
 	//#if LOGGING
-//@	private Logger logger;
+	private Logger logger;
 	//#endif
 
 	private final ArrayList<Message> messages;
@@ -36,15 +36,12 @@ public class Server {
 	public Server(int port, EncrypterDecrypter encDec) {
 		this.port = port;
 		// If encryption is disabled, use NoEncryption	
-		/*if (Conf.getInstance().encryption)	
-			this.encDec = encDec;	
-		else*/	
-			this.encDec = new NoEncryption();
+		this.encDec = encDec;	
 		this.run = new AtomicBoolean(true);
 		this.messages = new ArrayList<>();
 		//#if LOGGING
-//@		this.logger = new Logger("server");
-//@		this.logger.log("================ Server started =================");
+		this.logger = new Logger("server");
+		this.logger.log("================ Server started =================");
 		//#endif
 	}
 
@@ -56,11 +53,12 @@ public class Server {
 		return attempt.equals(PASSWORD);
 	}
 	
+	
 	//#if LOGGING
-//@	// Getters
-//@	public Logger getLogger(){
-//@		return this.logger;
-//@	}
+	// Getters
+	public Logger getLogger(){
+		return this.logger;
+	}
 	//#endif
 
 	/**
@@ -78,7 +76,7 @@ public class Server {
 			this.messages.add(Message.fromJson(msgObj));
 			// Log
 			//#if LOGGING
-//@			this.logger.log("Received message:" + msgObj.toString());
+			this.logger.log("Received message:" + msgObj.toString());
 			//#endif
 		}
 
@@ -106,17 +104,17 @@ public class Server {
 					Socket socket = srv.accept();
 					// Log
 					//#if LOGGING
-//@					this.logger.log("New connection accepted, socket: " + socket.toString());
+					this.logger.log("New connection accepted, socket: " + socket.toString());
 					//#endif
 
 					DataInputStream is = new DataInputStream(socket.getInputStream());
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
 					//#if AUTHENTICATION
-//@					String password = Communication.retrieveAndDecrypt(this.encDec, is);
-//@					boolean passwordCorrect = this.checkPassword(password);
+					String password = Communication.retrieveAndDecrypt(this.encDec, is);
+					boolean passwordCorrect = this.checkPassword(password);
 					//#else
-					boolean passwordCorrect = true;
+//@					boolean passwordCorrect = true;
 					//#endif
 
 					if (passwordCorrect) {
@@ -129,7 +127,7 @@ public class Server {
 				} catch (Exception e) {
 					// Log
 					//#if LOGGING
-//@					this.logger.log("New connection refused, got error: " + e.getMessage());
+					this.logger.log("New connection refused, got error: " + e.getMessage());
 					//#endif
 					e.printStackTrace();
 				}
@@ -137,7 +135,7 @@ public class Server {
 
 		} catch (IOException e) {
 			//#if LOGGING
-//@			this.logger.log("Server failed to start, got error: " + e.getMessage());
+			this.logger.log("Server failed to start, got error: " + e.getMessage());
 			//#endif
 			e.printStackTrace();
 		}

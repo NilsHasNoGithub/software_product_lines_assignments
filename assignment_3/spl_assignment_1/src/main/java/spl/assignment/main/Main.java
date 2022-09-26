@@ -45,8 +45,8 @@ public class Main {
         JTextField hostField = new JTextField();
         JTextField portField = new JTextField();
         //#if AUTHENTICATION
-//@        JTextField passwordField = new JTextField();
-//@        passwordField.setText("123456789");
+        JTextField passwordField = new JTextField();
+        passwordField.setText("123456789");
         //#endif
         JTextField usernameField = new JTextField();
 
@@ -58,8 +58,8 @@ public class Main {
         pane.add(new JLabel("Port:"));
         pane.add(portField);
         //#if AUTHENTICATION
-//@        pane.add(new JLabel("Password:"));
-//@        pane.add(passwordField);
+        pane.add(new JLabel("Password:"));
+        pane.add(passwordField);
         //#endif
         pane.add(new JLabel("Username:"));
         pane.add(usernameField);
@@ -70,27 +70,26 @@ public class Main {
             String host = hostField.getText();
             int port = Integer.parseInt(portField.getText());
             //#if AUTHENTICATION
-//@            String password = passwordField.getText();
+            String password = passwordField.getText();
             //#endif
             String username = usernameField.getText();
             //#if AUTHENTICATION
-//@            Client client = new Client(port, host, ENC_DEC, username, password);
+            Client client = new Client(port, host, ENC_DEC, username, password);
             //#else
-            Client client = new Client(port, host, ENC_DEC, username);
+//@            Client client = new Client(port, host, ENC_DEC, username);
             //#endif
+            //#if GUI
             ClientGui gui = new ClientGui(client);
             gui.show();
+            //#else
+//@            ClientCui cui = new ClientCui(client);
+            //#endif
+            
         }
 
     }
 
     public static void main(String[] args) {
-        //#ifdef TEST
-//@        System.out.println("TEST MODE ON");
-        //#endif
-        //#ifndef TEST
-        System.out.println("TEST MODE OFF");
-        //#endif
 
         String[] options = new String[] { "Server", "Client" };
         int chosen = JOptionPane.showOptionDialog(null, "Start application as server or client?", "Application type",

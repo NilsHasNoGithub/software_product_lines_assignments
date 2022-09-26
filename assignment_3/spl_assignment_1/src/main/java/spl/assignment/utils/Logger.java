@@ -17,11 +17,20 @@ public class Logger {
     private final List<String> logs;
 
 
-    // Constructor
+    public List<String> getLogs() {
+		return logs;
+	}
+
+	// Constructor
     public Logger(String fileName) {
         this.fileName = "logs/" + fileName  + ".txt";
         this.logs = new ArrayList<>();
     }
+    
+    public int getNLogs() {
+    	return this.logs.size();
+    }
+    
 
     /**
      * Collects all logs and returns them as string
@@ -37,28 +46,28 @@ public class Logger {
     }
     
     //#if LOGGING
-//@    private synchronized void createFolder() {
-//@        File file = new File(this.fileName);
-//@        String folder = file.getParent();
-//@
-//@        File folderFile = new File(folder);
-//@        if (!folderFile.isDirectory()) {
-//@            folderFile.mkdirs();
-//@        }
-//@    }
+    private synchronized void createFolder() {
+        File file = new File(this.fileName);
+        String folder = file.getParent();
+
+        File folderFile = new File(folder);
+        if (!folderFile.isDirectory()) {
+            folderFile.mkdirs();
+        }
+    }
     //#endif
 
     // Write to file
     public synchronized void log(String msg) {
         this.logs.add(msg + "\n");
         //#if LOGGING
-//@        this.createFolder();
-//@        try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
-//@            myWriter.write(msg);
-//@            myWriter.write(System.getProperty("line.separator"));
-//@        } catch (IOException e) {
-//@            e.printStackTrace();
-//@        }
+        this.createFolder();
+        try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
+            myWriter.write(msg);
+            myWriter.write(System.getProperty("line.separator"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //#endif
     }
 }
