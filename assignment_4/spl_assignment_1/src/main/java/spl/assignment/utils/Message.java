@@ -1,5 +1,6 @@
 package spl.assignment.utils;
 
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +15,7 @@ import spl.assignment.color.SolidColor;
 public class Message {
     private String content;
     private String username;
-    // private int[] color;
-    private ChatColor color; // should be Optional<ChatColor>
+    private Optional<ChatColor> color;
 
     public String getUsername() {
         return username;
@@ -26,31 +26,31 @@ public class Message {
     }
 
     public Color getColor() {
-        return color.getColor();
+        return color.orElse(null).getColor();
     }
 
     public int getR() {
-        return color.getR();
+        return color.orElse(null).getR();
     }
 
     public int getG() {
-        return color.getG();
+        return color.orElse(null).getG();
     }
 
     public int getB() {
-        return color.getB();
+        return color.orElse(null).getB();
     }
 
     public Message(String content, String username, int r, int g, int b) {
         this.content = content;
         this.username = username;
-        this.color = new SolidColor(r, g, b);
+        this.color = Optional.of(new SolidColor(r, g, b));
     }
 
     public Message(String content, String username) {
         this.content = content;
         this.username = username;
-        this.color = new SolidColor();
+        this.color = Optional.of(new SolidColor());
     }
 
     public JSONObject toJson() {
@@ -58,7 +58,7 @@ public class Message {
 
         result.put("content", this.content);
         result.put("username", this.username);
-        result.put("color", color.toJSONArray());
+        result.put("color", color.orElse(null).toJSONArray());
 
         return result;
     }
