@@ -3,14 +3,19 @@ package spl.assignment.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.json.*;
+
+import spl.assignment.color.ChatColor;
+import spl.assignment.color.Color;
+import spl.assignment.color.SolidColor;
 
 public class Message {
     private String content;
     private String username;
     // private int[] color;
-    private Optional<ChatColor> color;
+    private ChatColor color; // should be Optional<ChatColor>
 
     public String getUsername() {
         return username;
@@ -39,13 +44,13 @@ public class Message {
     public Message(String content, String username, int r, int g, int b) {
         this.content = content;
         this.username = username;
-        this.color = SolidColor(r, g, b);
+        this.color = new SolidColor(r, g, b);
     }
 
     public Message(String content, String username) {
         this.content = content;
         this.username = username;
-        this.color = SolidColor(r, g, b);
+        this.color = new SolidColor();
     }
 
     public JSONObject toJson() {
@@ -89,8 +94,9 @@ public class Message {
 
         Message other = (Message) obj;
 
-        return this.username.equals(other.username) && this.content.equals(other.content)
-                && Arrays.equals(this.color, other.color);
+        return this.username.equals(other.username) &&
+                this.content.equals(other.content) &&
+                this.color.equals(other.color);
     }
 
 }
