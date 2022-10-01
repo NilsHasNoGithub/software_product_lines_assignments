@@ -9,7 +9,8 @@ import org.json.*;
 public class Message {
     private String content;
     private String username;
-    private int[] color;
+    // private int[] color;
+    private Optional<ChatColor> color;
 
     public String getUsername() {
         return username;
@@ -19,32 +20,32 @@ public class Message {
         return content;
     }
 
-    public int[] getColor() {
-        return color;
+    public Color getColor() {
+        return color.getColor();
     }
 
     public int getR() {
-        return color[0];
+        return color.getR();
     }
 
     public int getG() {
-        return color[1];
+        return color.getG();
     }
 
     public int getB() {
-        return color[2];
+        return color.getB();
     }
 
     public Message(String content, String username, int r, int g, int b) {
         this.content = content;
         this.username = username;
-        this.color = new int[] { r, g, b };
+        this.color = SolidColor(r, g, b);
     }
 
     public Message(String content, String username) {
         this.content = content;
         this.username = username;
-        this.color = new int[] { 0, 0, 0 };
+        this.color = SolidColor(r, g, b);
     }
 
     public JSONObject toJson() {
@@ -52,7 +53,7 @@ public class Message {
 
         result.put("content", this.content);
         result.put("username", this.username);
-        result.put("color", new JSONArray(this.color));
+        result.put("color", color.toJSONArray());
 
         return result;
     }
