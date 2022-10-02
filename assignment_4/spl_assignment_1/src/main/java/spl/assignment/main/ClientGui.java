@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.InputVerifier;
@@ -22,11 +23,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import java.awt.Color;
 
 import java.awt.BorderLayout;
 
 import spl.assignment.client.Client;
+import spl.assignment.color.ChatColorComponent;
+import spl.assignment.color.Color;
 import spl.assignment.utils.Message;
 
 public class ClientGui implements ClientUi {
@@ -42,19 +44,16 @@ public class ClientGui implements ClientUi {
     private final JScrollPane chatScroll;
     private final JTextField newMessageField;
 
-    // rgb colors
-    private final JTextField rColorField;
-    private final JTextField gColorField;
-    private final JTextField bColorField;
+    private final ChatColorComponent chatColorComponent;
 
     private final JLabel infoLabel;
 
     private final JButton sendMsgButton;
 
-    public ClientGui(Client client) {
+    public ClientGui(Client client, ChatColorComponent chatColorComponent) {
         this.client = client;
-
         this.prevMessages = new ArrayList<>();
+        this.chatColorComponent = chatColorComponent;
 
         mainFrame = new JFrame();
         mainFrame.setTitle("Client");
@@ -67,54 +66,6 @@ public class ClientGui implements ClientUi {
 
         chatField = new JTextPane();
         chatField.setEditable(false);
-
-        JPanel colorPanel = new JPanel();
-        colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.X_AXIS));
-        colorPanel.setSize(200, 20);
-
-        rColorField = new JTextField();
-        rColorField.setText("0");
-        rColorField.setColumns(2);
-        rColorField.setSize(20, 15);
-
-        gColorField = new JTextField();
-        gColorField.setText("0");
-        gColorField.setColumns(2);
-        gColorField.setSize(20, 15);
-
-        bColorField = new JTextField();
-        bColorField.setText("0");
-        bColorField.setColumns(2);
-        bColorField.setSize(20, 15);
-
-        InputVerifier coloVerifier = new InputVerifier() {
-
-            @Override
-            public boolean verify(JComponent input) {
-                JTextField textField = (JTextField) input;
-                try {
-                    int value = Integer.parseInt(textField.getText());
-                    if (value < 0 || value > 255) {
-                        return false;
-                    }
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                return true;
-            }
-
-        };
-
-        rColorField.setInputVerifier(coloVerifier);
-        gColorField.setInputVerifier(coloVerifier);
-        bColorField.setInputVerifier(coloVerifier);
-
-        colorPanel.add(new JLabel("R: "));
-        colorPanel.add(rColorField);
-        colorPanel.add(new JLabel("G: "));
-        colorPanel.add(gColorField);
-        colorPanel.add(new JLabel("B: "));
-        colorPanel.add(bColorField);
 
         JPanel newMessagePanel = new JPanel();
         newMessagePanel.setLayout(new BoxLayout(newMessagePanel, BoxLayout.X_AXIS));
@@ -131,6 +82,7 @@ public class ClientGui implements ClientUi {
             public void actionPerformed(ActionEvent e) {
                 sendMessage();
             }
+
         });
 
         newMessagePanel.add(sendMsgButton);
@@ -143,7 +95,12 @@ public class ClientGui implements ClientUi {
 
         JPanel south = new JPanel();
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
-        south.add(colorPanel);
+
+        Optional<JComponent> colorSelectionComponent = chatColorComponent.getSelectionComponent();
+        if (colorSelectionComponent.isPresent()) {
+            south.add(colorSelectionComponent.get());
+        }
+        
         south.add(newMessagePanel);
 
         mainPanel.add(south, BorderLayout.SOUTH);
@@ -170,12 +127,11 @@ public class ClientGui implements ClientUi {
     private synchronized void sendMessage() {
         String message = newMessageField.getText();
         newMessageField.setText("");
-        int r = Integer.parseInt(rColorField.getText());
-        int g = Integer.parseInt(gColorField.getText());
-        int b = Integer.parseInt(bColorField.getText());
+
+        Color color = this.chatColorComponent.getColor();
 
         try {
-            client.sendMessage(message, r, g, b);
+            client.sendMessage(message, color.r, color.g, color.b);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -203,8 +159,10 @@ public class ClientGui implements ClientUi {
         chatField.setEditable(true);
         for (Message message : messages) {
             StyleContext sc = StyleContext.getDefaultStyleContext();
+
+            Color c = message.getColor();
             AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground,
-                    new Color(message.getR(), message.getG(), message.getB()));
+                    new java.awt.Color(c.r, c.g, c.b));
 
             aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
             aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);

@@ -7,8 +7,10 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 
 import spl.assignment.authentication.Authenticator;
-import spl.assignment.authentication.PlainPasswordAuth;
+import spl.assignment.authentication.NoAuth;
 import spl.assignment.client.Client;
+import spl.assignment.color.ChatColorComponent;
+import spl.assignment.color.ColorComponent;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.encryption.ListOfEncDecs;
 import spl.assignment.encryption.Reverser;
@@ -18,18 +20,26 @@ import spl.assignment.server.Server;
 public class Main {
     public static String PASSWORD = "123456789";
 
+
+    /// Configuration for message encryption and decryption (Can be any list of encrypters, empty list for no encryption/decryption)
     public static final EncrypterDecrypter ENC_DEC = new ListOfEncDecs(
             new EncrypterDecrypter[] { new Reverser(), new SeededEncDec(42) });
 
-    public static final Authenticator AUTHENTICATOR = new PlainPasswordAuth(PASSWORD);
+    /// Configuration of authentication (Can also be NoAuth)
+    // public static final Authenticator AUTHENTICATOR = new PlainPasswordAuth(PASSWORD);
+    public static final Authenticator AUTHENTICATOR = new NoAuth();
 
+    /// Configuration of chat colors
+    // public static final ChatColorComponent CHAT_COLOR_COMPONENT = new NoColorComponent();
+    public static final ChatColorComponent CHAT_COLOR_COMPONENT = new ColorComponent();
 
-    /// Configuration function for creating client
+    /// Configuration function for creating client ui
     private static ClientUi mkClientUi(Client client) {
         // return new ClientCui(client);
-        return new ClientGui(client);
+        return new ClientGui(client, CHAT_COLOR_COMPONENT);
     }
 
+    /// Configuration function for creating server ui
     private static ServerUi mkServerUi(Server server) {
         // return new ServerCui(server);
         return new ServerGui(server);
@@ -57,7 +67,6 @@ public class Main {
 
         ServerUi ui = mkServerUi(server);
         ui.show();
-
     }
 
     private static void startClient() {
@@ -74,8 +83,6 @@ public class Main {
         pane.add(hostField);
         pane.add(new JLabel("Port:"));
         pane.add(portField);
-
-        
 
         pane.add(new JLabel("Username:"));
         pane.add(usernameField);
@@ -103,12 +110,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         String[] options = new String[] { "Server", "Client" };
         int chosen = JOptionPane.showOptionDialog(null, "Start application as server or client?", "Application type",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
 
         boolean is_server;
+
         if (chosen == 0) {
             is_server = true;
         } else if (chosen == 1) {

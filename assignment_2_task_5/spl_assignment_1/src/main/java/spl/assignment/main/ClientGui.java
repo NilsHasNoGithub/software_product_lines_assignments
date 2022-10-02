@@ -22,7 +22,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import java.awt.Color;
 
 import java.awt.BorderLayout;
 
@@ -212,7 +211,7 @@ public class ClientGui {
         chatField.setEditable(true);
         for (Message message : messages) {
             StyleContext sc = StyleContext.getDefaultStyleContext();
-            AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, new Color(message.getR(), message.getG(), message.getB()));
+            AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, new java.awt.Color(message.getR(), message.getG(), message.getB()));
 
             aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
             aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);

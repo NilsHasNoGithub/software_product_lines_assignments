@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import spl.assignment.client.Client;
+import spl.assignment.color.Color;
 import spl.assignment.utils.Message;
 
 public class ClientCui implements ClientUi {
@@ -54,8 +55,10 @@ public class ClientCui implements ClientUi {
         for (Message message : messages) {
             String toPrint = message.getUsername();
 
+            Color c = message.getColor();
+
             // #if COLOR
-            toPrint += ", color (" + message.getR() + ", " + message.getG() + ", " + message.getB() + ")";
+            toPrint += ", color (" + c.r + ", " + c.g + ", " + c.b + ")";
             // #endif
             toPrint += ": " + message.getContent();
 

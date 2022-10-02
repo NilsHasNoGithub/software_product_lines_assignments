@@ -8,14 +8,14 @@ import java.util.Optional;
 
 import org.json.*;
 
-import spl.assignment.color.ChatColor;
+import spl.assignment.color.ChatColorComponent;
 import spl.assignment.color.Color;
-import spl.assignment.color.SolidColor;
+import spl.assignment.color.NoColorComponent;
 
 public class Message {
     private String content;
     private String username;
-    private Optional<ChatColor> color;
+    private Color color;
 
     public String getUsername() {
         return username;
@@ -26,31 +26,31 @@ public class Message {
     }
 
     public Color getColor() {
-        return color.orElse(null).getColor();
+        return color;
     }
 
-    public int getR() {
-        return color.orElse(null).getR();
-    }
+    // public int getR() {
+    //     return color.orElse(null).getR();
+    // }
 
-    public int getG() {
-        return color.orElse(null).getG();
-    }
+    // public int getG() {
+    //     return color.orElse(null).getG();
+    // }
 
-    public int getB() {
-        return color.orElse(null).getB();
-    }
+    // public int getB() {
+    //     return color.orElse(null).getB();
+    // }
 
     public Message(String content, String username, int r, int g, int b) {
         this.content = content;
         this.username = username;
-        this.color = Optional.of(new SolidColor(r, g, b));
+        this.color = new Color(r, g, b);
     }
 
     public Message(String content, String username) {
         this.content = content;
         this.username = username;
-        this.color = Optional.of(new SolidColor());
+        this.color = new Color(0, 0, 0);
     }
 
     public JSONObject toJson() {
@@ -58,7 +58,7 @@ public class Message {
 
         result.put("content", this.content);
         result.put("username", this.username);
-        result.put("color", color.orElse(null).toJSONArray());
+        result.put("color", color.toJsonArray());
 
         return result;
     }
