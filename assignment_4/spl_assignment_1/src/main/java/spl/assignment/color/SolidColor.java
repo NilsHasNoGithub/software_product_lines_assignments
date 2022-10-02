@@ -40,8 +40,9 @@ public class SolidColor implements ChatColor {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof SolidColor))
+        if (!(obj instanceof SolidColor)) {
             return false;
+        }
 
         SolidColor other = (SolidColor) obj;
 

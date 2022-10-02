@@ -17,11 +17,20 @@ public class Logger {
     private final List<String> logs;
 
 
-    // Constructor
+    public List<String> getLogs() {
+		return logs;
+	}
+
+	// Constructor
     public Logger(String fileName) {
         this.fileName = "logs/" + fileName  + ".txt";
         this.logs = new ArrayList<>();
     }
+    
+    public int getNLogs() {
+    	return this.logs.size();
+    }
+    
 
     /**
      * Collects all logs and returns them as string
@@ -35,7 +44,7 @@ public class Logger {
 
         return sb.toString();
     }
-
+    
     private synchronized void createFolder() {
         File file = new File(this.fileName);
         String folder = file.getParent();
@@ -48,8 +57,8 @@ public class Logger {
 
     // Write to file
     public synchronized void log(String msg) {
-        this.createFolder();
         this.logs.add(msg + "\n");
+        this.createFolder();
         try (FileWriter myWriter = new FileWriter(this.fileName, true)) {
             myWriter.write(msg);
             myWriter.write(System.getProperty("line.separator"));

@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import spl.assignment.authentication.Authenticator;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.main.Main;
 import spl.assignment.utils.Communication;
@@ -20,7 +21,7 @@ public class Client {
     private String host;
     private EncrypterDecrypter encDec;
     private String username;
-    private String password;
+    private Authenticator authenticator;
     private Logger logger;
 
     public String getUsername() {
@@ -35,12 +36,12 @@ public class Client {
         return port;
     }
 
-    public Client(int port, String host, EncrypterDecrypter encDec, String username, String password) {
+    public Client(int port, String host, EncrypterDecrypter encDec, String username, Authenticator authenticator) {
         this.port = port;
         this.host = host;
         this.encDec = encDec;
         this.username = username;
-        this.password = password;
+        this.authenticator = authenticator;
         this.logger = new Logger("client_" + username);
         this.logger.log("================ Client started =================");
     }
@@ -91,9 +92,7 @@ public class Client {
             DataInputStream is = new DataInputStream(socket.getInputStream());
             DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
-            if (Main.AUTH_ENABLED) {
-                Communication.encryptAndSend(this.password, this.encDec, os);
-            }
+            Communication.encryptAndSend(this.authenticator.getAuthString(), this.encDec, os);
 
             Communication.encryptAndSend(request.toString(), this.encDec, os);
 

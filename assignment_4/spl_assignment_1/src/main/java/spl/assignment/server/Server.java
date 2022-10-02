@@ -19,29 +19,19 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import org.json.*;
 
-
 public class Server {
 	public static final String PASSWORD = "123456789";
 
 	private final int port;
-	
 
 	private final AtomicBoolean run;
 	private final EncrypterDecrypter encDec;
 	private Logger logger;
-	private Optional<Authenticator> authenticator;
+	private Authenticator authenticator;
 
 	private final ArrayList<Message> messages;
-	
-	public Server(int port, EncrypterDecrypter encDec) {
-		this(port, encDec, Optional.empty());
-	}
 
 	public Server(int port, EncrypterDecrypter encDec, Authenticator auth) {
-		this(port, encDec, Optional.of(auth));
-	}
-
-	private Server(int port, EncrypterDecrypter encDec, Optional<Authenticator> auth) {
 		this.port = port;
 		this.encDec = encDec;
 		this.authenticator = auth;
@@ -55,12 +45,8 @@ public class Server {
 		this.run.set(false);
 	}
 
-	private boolean checkPassword(String attempt) {
-		return attempt.equals(PASSWORD);
-	}
-
 	// Getters
-	public Logger getLogger(){
+	public Logger getLogger() {
 		return this.logger;
 	}
 
@@ -69,7 +55,7 @@ public class Server {
 	 * @param jsonRequest
 	 * @return The response
 	 */
-	private String handleRequest(String jsonRequest) throws JSONException{
+	private String handleRequest(String jsonRequest) throws JSONException {
 		JSONObject requestObj = new JSONObject(jsonRequest);
 
 		String type = requestObj.getString("type");
@@ -109,15 +95,8 @@ public class Server {
 					DataInputStream is = new DataInputStream(socket.getInputStream());
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
-					boolean authSucces;
-
-					if (this.authenticator.isPresent()) {
-						String password = Communication.retrieveAndDecrypt(this.encDec, is);
-						authSucces = this.authenticator.get().checkPassword(password);
-					} else {
-						authSucces = true;
-					}
-					
+					String authStr = Communication.retrieveAndDecrypt(this.encDec, is);
+					boolean authSucces = this.authenticator.checkAuth(authStr);
 
 					if (authSucces) {
 						String jsonBody = Communication.retrieveAndDecrypt(this.encDec, is);

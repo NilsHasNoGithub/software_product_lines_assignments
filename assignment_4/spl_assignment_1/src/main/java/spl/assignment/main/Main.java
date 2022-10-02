@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
-import java.util.Optional;
 
 import spl.assignment.authentication.Authenticator;
 import spl.assignment.authentication.PlainPasswordAuth;
@@ -17,24 +16,31 @@ import spl.assignment.encryption.SeededEncDec;
 import spl.assignment.server.Server;
 
 public class Main {
-
-    public static final boolean AUTH_ENABLED = false;
+    public static String PASSWORD = "123456789";
 
     public static final EncrypterDecrypter ENC_DEC = new ListOfEncDecs(
             new EncrypterDecrypter[] { new Reverser(), new SeededEncDec(42) });
 
-    public static final Authenticator AUTHENTICATOR = new PlainPasswordAuth();
+    public static final Authenticator AUTHENTICATOR = new PlainPasswordAuth(PASSWORD);
+
+
+    /// Configuration function for creating client
+    private static ClientUi mkClientUi(Client client) {
+        // return new ClientCui(client);
+        return new ClientGui(client);
+    }
+
+    private static ServerUi mkServerUi(Server server) {
+        // return new ServerCui(server);
+        return new ServerGui(server);
+    }
 
     private static void startServer() {
         int port = Integer.parseInt(JOptionPane.showInputDialog("Enter Port Number"));
 
         // Create server
         final Server server;
-        if (AUTH_ENABLED) {
-            server = new Server(port, ENC_DEC, AUTHENTICATOR);
-        } else {
-            server = new Server(port, ENC_DEC);
-        }
+        server = new Server(port, ENC_DEC, AUTHENTICATOR);
         
 
         Runnable serverRunnable = new Runnable() {
@@ -49,8 +55,8 @@ public class Main {
         Thread serverThread = new Thread(serverRunnable);
         serverThread.start();
 
-        ServerGui gui = new ServerGui(server);
-        gui.show();
+        ServerUi ui = mkServerUi(server);
+        ui.show();
 
     }
 
@@ -58,7 +64,7 @@ public class Main {
         JTextField hostField = new JTextField();
         JTextField portField = new JTextField();
         JTextField passwordField = new JTextField();
-        passwordField.setText(PlainPasswordAuth.PASSWORD);
+        passwordField.setText(PASSWORD);
         JTextField usernameField = new JTextField();
 
         JPanel pane = new JPanel();
@@ -74,7 +80,7 @@ public class Main {
         pane.add(new JLabel("Username:"));
         pane.add(usernameField);
 
-        if (AUTH_ENABLED) {
+        if (AUTHENTICATOR.passwordRequired()) {
             pane.add(new JLabel("Password:"));
             pane.add(passwordField);
         }
@@ -87,9 +93,9 @@ public class Main {
             String password = passwordField.getText();
             String username = usernameField.getText();
 
-            Client client = new Client(port, host, ENC_DEC, username, password);
+            Client client = new Client(port, host, ENC_DEC, username, AUTHENTICATOR.newInstance(password));
 
-            ClientGui gui = new ClientGui(client);
+            ClientUi gui = mkClientUi(client);
             gui.show();
         }
 

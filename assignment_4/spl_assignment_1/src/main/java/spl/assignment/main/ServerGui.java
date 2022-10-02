@@ -15,7 +15,7 @@ import javax.swing.WindowConstants;
 
 import spl.assignment.server.Server;
 
-public class ServerGui {
+public class ServerGui implements ServerUi{
 
     private final Server server;
 
@@ -96,7 +96,7 @@ public class ServerGui {
         logField.setText(logs);
     }
 
-
+    @Override
     public void show() {
         this.mainFrame.setVisible(true);
     }

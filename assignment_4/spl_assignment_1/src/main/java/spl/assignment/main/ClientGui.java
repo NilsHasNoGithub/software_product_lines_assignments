@@ -29,7 +29,7 @@ import java.awt.BorderLayout;
 import spl.assignment.client.Client;
 import spl.assignment.utils.Message;
 
-public class ClientGui {
+public class ClientGui implements ClientUi {
     private final Client client;
 
     private final List<Message> prevMessages;
@@ -47,12 +47,9 @@ public class ClientGui {
     private final JTextField gColorField;
     private final JTextField bColorField;
 
-    
     private final JLabel infoLabel;
 
     private final JButton sendMsgButton;
-
-
 
     public ClientGui(Client client) {
         this.client = client;
@@ -68,7 +65,6 @@ public class ClientGui {
         mainPanel.setLayout(new BorderLayout());
         mainFrame.add(mainPanel);
 
-
         chatField = new JTextPane();
         chatField.setEditable(false);
 
@@ -80,12 +76,12 @@ public class ClientGui {
         rColorField.setText("0");
         rColorField.setColumns(2);
         rColorField.setSize(20, 15);
-        
+
         gColorField = new JTextField();
         gColorField.setText("0");
         gColorField.setColumns(2);
         gColorField.setSize(20, 15);
-        
+
         bColorField = new JTextField();
         bColorField.setText("0");
         bColorField.setColumns(2);
@@ -106,21 +102,19 @@ public class ClientGui {
                 }
                 return true;
             }
-            
+
         };
 
         rColorField.setInputVerifier(coloVerifier);
         gColorField.setInputVerifier(coloVerifier);
         bColorField.setInputVerifier(coloVerifier);
-        
+
         colorPanel.add(new JLabel("R: "));
         colorPanel.add(rColorField);
         colorPanel.add(new JLabel("G: "));
         colorPanel.add(gColorField);
         colorPanel.add(new JLabel("B: "));
         colorPanel.add(bColorField);
-
-        
 
         JPanel newMessagePanel = new JPanel();
         newMessagePanel.setLayout(new BoxLayout(newMessagePanel, BoxLayout.X_AXIS));
@@ -140,9 +134,9 @@ public class ClientGui {
         });
 
         newMessagePanel.add(sendMsgButton);
-        
 
-        infoLabel = new JLabel("Host: " + client.getAddress() + " Port: " + client.getPort() + " User: " + client.getUsername());
+        infoLabel = new JLabel(
+                "Host: " + client.getAddress() + " Port: " + client.getPort() + " User: " + client.getUsername());
         mainPanel.add(infoLabel, BorderLayout.NORTH);
         chatScroll = new JScrollPane(chatField);
         mainPanel.add(chatScroll, BorderLayout.CENTER);
@@ -151,16 +145,16 @@ public class ClientGui {
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
         south.add(colorPanel);
         south.add(newMessagePanel);
-        
+
         mainPanel.add(south, BorderLayout.SOUTH);
 
         mainFrame.setVisible(true);
-        
+
         Runnable refreshChat = new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                        requestMessagesAndUpdate();
+                    requestMessagesAndUpdate();
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
@@ -171,9 +165,6 @@ public class ClientGui {
         };
         new Thread(refreshChat).start();
 
-
-
-
     }
 
     private synchronized void sendMessage() {
@@ -182,7 +173,7 @@ public class ClientGui {
         int r = Integer.parseInt(rColorField.getText());
         int g = Integer.parseInt(gColorField.getText());
         int b = Integer.parseInt(bColorField.getText());
-        
+
         try {
             client.sendMessage(message, r, g, b);
         } catch (IOException e) {
@@ -212,11 +203,11 @@ public class ClientGui {
         chatField.setEditable(true);
         for (Message message : messages) {
             StyleContext sc = StyleContext.getDefaultStyleContext();
-            AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, new Color(message.getR(), message.getG(), message.getB()));
+            AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground,
+                    new Color(message.getR(), message.getG(), message.getB()));
 
             aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
             aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
-
 
             chatField.setCaretPosition(chatField.getDocument().getLength());
             chatField.setCharacterAttributes(aset, false);
@@ -225,14 +216,15 @@ public class ClientGui {
 
         JScrollBar vertical = chatScroll.getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
-        
+
         chatField.setEditable(false);
     }
 
-
+    @Override
     public void show() {
         mainFrame.setVisible(true);
     }
+
 
 
 }

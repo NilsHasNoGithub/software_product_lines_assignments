@@ -1,4 +1,5 @@
 package spl.assignment.main;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +7,7 @@ import java.util.List;
 import spl.assignment.client.Client;
 import spl.assignment.utils.Message;
 
-public class ClientCui {
+public class ClientCui implements ClientUi {
     private final Client client;
 
     private final List<Message> prevMessages;
@@ -15,8 +16,6 @@ public class ClientCui {
         this.client = client;
 
         this.prevMessages = new ArrayList<>();
-
-    
 
         Runnable refreshChat = new Runnable() {
             @Override
@@ -34,7 +33,6 @@ public class ClientCui {
         new Thread(refreshChat).start();
 
     }
-
 
     private void requestMessagesAndUpdate() {
         try {
@@ -54,17 +52,19 @@ public class ClientCui {
         prevMessages.addAll(messages);
 
         for (Message message : messages) {
-        	String toPrint = message.getUsername();
-        	
-        	//#if COLOR
-        	toPrint += ", color (" + message.getR() + ", " + message.getG() + ", " + message.getB() + ")";
-        	//#endif
-        	toPrint += ": " + message.getContent();
-        	
-        	
+            String toPrint = message.getUsername();
+
+            // #if COLOR
+            toPrint += ", color (" + message.getR() + ", " + message.getG() + ", " + message.getB() + ")";
+            // #endif
+            toPrint += ": " + message.getContent();
+
             System.out.println(toPrint);
         }
     }
 
+    @Override
+    public void show() {
+    }
 
 }

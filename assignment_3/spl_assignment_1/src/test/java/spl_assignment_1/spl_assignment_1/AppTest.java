@@ -12,7 +12,6 @@ import org.junit.Test;
 import spl.assignment.client.Client;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.encryption.Reverser;
-import spl.assignment.main.ClientCui;
 import spl.assignment.main.Main;
 import spl.assignment.server.Server;
 import spl.assignment.utils.Logger;
