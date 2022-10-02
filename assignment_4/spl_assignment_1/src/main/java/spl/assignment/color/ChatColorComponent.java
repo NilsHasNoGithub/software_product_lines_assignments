@@ -10,5 +10,6 @@ public interface ChatColorComponent {
     public Optional<JComponent> getSelectionComponent();
 
     public Color getColor();
+    public String getChatTextRepr();
 
 }

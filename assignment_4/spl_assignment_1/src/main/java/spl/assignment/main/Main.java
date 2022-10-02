@@ -8,9 +8,11 @@ import java.awt.GridLayout;
 
 import spl.assignment.authentication.Authenticator;
 import spl.assignment.authentication.NoAuth;
+import spl.assignment.authentication.PlainPasswordAuth;
 import spl.assignment.client.Client;
 import spl.assignment.color.ChatColorComponent;
 import spl.assignment.color.ColorComponent;
+import spl.assignment.color.NoColorComponent;
 import spl.assignment.encryption.EncrypterDecrypter;
 import spl.assignment.encryption.ListOfEncDecs;
 import spl.assignment.encryption.Reverser;
@@ -20,22 +22,22 @@ import spl.assignment.server.Server;
 public class Main {
     public static String PASSWORD = "123456789";
 
-
-    /// Configuration for message encryption and decryption (Can be any list of encrypters, empty list for no encryption/decryption)
+    /// Configuration for message encryption and decryption (Can be any list of
+    /// encrypters, empty list for no encryption/decryption)
     public static final EncrypterDecrypter ENC_DEC = new ListOfEncDecs(
             new EncrypterDecrypter[] { new Reverser(), new SeededEncDec(42) });
 
     /// Configuration of authentication (Can also be NoAuth)
-    // public static final Authenticator AUTHENTICATOR = new PlainPasswordAuth(PASSWORD);
-    public static final Authenticator AUTHENTICATOR = new NoAuth();
+    public static final Authenticator AUTHENTICATOR = new PlainPasswordAuth(PASSWORD);
+    // public static final Authenticator AUTHENTICATOR = new NoAuth();
 
     /// Configuration of chat colors
-    // public static final ChatColorComponent CHAT_COLOR_COMPONENT = new NoColorComponent();
-    public static final ChatColorComponent CHAT_COLOR_COMPONENT = new ColorComponent();
+    // public static final ChatColorComponent CHAT_COLOR_COMPONENT = new ColorComponent();
+    public static final ChatColorComponent CHAT_COLOR_COMPONENT = new NoColorComponent();
 
     /// Configuration function for creating client ui
     private static ClientUi mkClientUi(Client client) {
-        // return new ClientCui(client);
+        // return new ClientCui(client, CHAT_COLOR_COMPONENT);
         return new ClientGui(client, CHAT_COLOR_COMPONENT);
     }
 
@@ -51,7 +53,6 @@ public class Main {
         // Create server
         final Server server;
         server = new Server(port, ENC_DEC, AUTHENTICATOR);
-        
 
         Runnable serverRunnable = new Runnable() {
 

@@ -37,4 +37,9 @@ public class NoColorComponent implements ChatColorComponent {
     public Optional<JComponent> getSelectionComponent() {
         return Optional.empty();
     }
+
+    @Override
+    public String getChatTextRepr() {
+        return "";
+    }
 }

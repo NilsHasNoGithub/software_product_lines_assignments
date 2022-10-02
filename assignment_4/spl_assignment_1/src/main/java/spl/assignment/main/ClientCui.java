@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import spl.assignment.client.Client;
+import spl.assignment.color.ChatColorComponent;
 import spl.assignment.color.Color;
 import spl.assignment.utils.Message;
 
@@ -13,8 +14,12 @@ public class ClientCui implements ClientUi {
 
     private final List<Message> prevMessages;
 
-    public ClientCui(Client client) {
+    private final ChatColorComponent chatColorComponent;
+
+    public ClientCui(Client client, ChatColorComponent chatColorComponent) {
         this.client = client;
+
+        this.chatColorComponent = chatColorComponent;
 
         this.prevMessages = new ArrayList<>();
 
@@ -55,11 +60,7 @@ public class ClientCui implements ClientUi {
         for (Message message : messages) {
             String toPrint = message.getUsername();
 
-            Color c = message.getColor();
-
-            // #if COLOR
-            toPrint += ", color (" + c.r + ", " + c.g + ", " + c.b + ")";
-            // #endif
+            toPrint += this.chatColorComponent.getChatTextRepr();
             toPrint += ": " + message.getContent();
 
             System.out.println(toPrint);

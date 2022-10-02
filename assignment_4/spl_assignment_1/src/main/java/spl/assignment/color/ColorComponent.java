@@ -84,5 +84,13 @@ public class ColorComponent implements ChatColorComponent{
         return new Color(r, g, b);
     }
 
+    @Override
+    public String getChatTextRepr() {
+        Color c = this.getColor();
+        return ", color (" + c.r + ", " + c.g + ", " + c.b + ")";
+    }
+
+    
+
     
 }
