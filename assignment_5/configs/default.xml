@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+	<feature automatic="selected" name="assignment_5"/>
+	<feature automatic="selected" name="Main"/>
+	<feature manual="selected" name="UI"/>
+	<feature name="ColorUI"/>
+	<feature name="Authentication"/>
+	<feature name="Color"/>
+	<feature automatic="selected" name="Encryption"/>
+	<feature manual="selected" name="Reverser"/>
+	<feature manual="selected" name="Seeded"/>
+	<feature manual="selected" name="Sound"/>
+</configuration>
