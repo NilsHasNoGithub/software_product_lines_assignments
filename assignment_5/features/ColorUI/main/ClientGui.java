@@ -81,7 +81,7 @@ public class ClientGui {
         int b = Integer.parseInt(bColorField.getText());
         
         try {
-            client.sendMessage(message, 0, 0, 0);
+            client.sendMessage(message, r, g, b);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

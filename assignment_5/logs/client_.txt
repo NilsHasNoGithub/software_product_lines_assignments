@@ -49,3 +49,46 @@ IO error: java.net.ConnectException: Connection refused (Connection refused)
 IO error: java.net.ConnectException: Connection refused (Connection refused)
 IO error: java.net.ConnectException: Connection refused (Connection refused)
 IO error: java.net.ConnectException: Connection refused (Connection refused)
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"awef","username":""}
+Sending message: {"color":[0,0,0],"content":"aewfwaef","username":""}
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"asdffaew","username":""}
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"aergfaget","username":""}
+================ Client started =================
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"aegrthseg","username":""}
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"agre","username":""}
+================ Client started =================
+================ Client started =================
+================ Client started =================
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"aaerg","username":""}
+================ Client started =================
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"strh","username":""}
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"","username":""}
+Sending message: {"color":[0,0,0],"content":"","username":""}
+Sending message: {"color":[0,0,0],"content":"","username":""}
+Sending message: {"color":[0,0,0],"content":"","username":""}
+Sending message: {"color":[0,0,0],"content":"","username":""}
+================ Client started =================
+================ Client started =================
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+================ Client started =================
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)

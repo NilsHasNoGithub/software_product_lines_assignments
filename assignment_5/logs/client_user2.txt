@@ -1,0 +1,7 @@
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"hello world","username":"user2"}
+Sending message: {"color":[0,0,0],"content":"test","username":"user2"}
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+================ Client started =================
+Sending message: {"color":[255,0,0],"content":"red","username":"user2"}

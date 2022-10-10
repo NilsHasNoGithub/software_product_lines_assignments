@@ -13,6 +13,7 @@
 	<struct>
 		<and abstract="true" mandatory="true" name="assignment_5">
 			<and mandatory="true" name="Main">
+				<graphics key="collapsed" value="false"/>
 				<and name="UI">
 					<feature name="ColorUI"/>
 				</and>

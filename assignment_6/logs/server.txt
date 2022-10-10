@@ -1,0 +1,15 @@
+================ Server started =================
+================ Server started =================
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59684,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59692,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59696,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59702,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59704,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59720,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59722,localport=1233]
+Received message:{"color":[0,0,0],"content":"awefawef","username":""}
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59726,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59738,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59740,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59744,localport=1233]
+New connection accepted, socket: Socket[addr=/127.0.0.1,port=59758,localport=1233]
