@@ -53,7 +53,7 @@ public class Main {
     }
     
     private static void startClientUi(Client client) {
-    	ClientCui gui = new ClientCui(client);
+    	ClientGui gui = new ClientGui(client);
         gui.show();
     }
 

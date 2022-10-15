@@ -27,6 +27,9 @@ public class Server {
 
 	private final ArrayList<Message> messages;
 	
+	public EncrypterDecrypter getEncDec() {
+		return this.encDec;
+	}
 
 	public Server(int port, EncrypterDecrypter encDec) {
 		this.port = port;
@@ -83,6 +86,12 @@ public class Server {
 	public int getPort() {
 		return port;
 	}
+	
+	private void handleClient(DataInputStream is, DataOutputStream os) throws IOException {
+		String jsonBody = Communication.retrieveAndDecrypt(this.encDec, is);
+		String response = this.handleRequest(jsonBody);
+		Communication.encryptAndSend(response, this.encDec, os);
+	}
 
 	public void blockingStart() {
 		
@@ -97,13 +106,8 @@ public class Server {
 
 					DataInputStream is = new DataInputStream(socket.getInputStream());
 					DataOutputStream os = new DataOutputStream(socket.getOutputStream());
-					
-
-					if (handleNewConnection(is)) {
-						String jsonBody = Communication.retrieveAndDecrypt(this.encDec, is);
-						String response = this.handleRequest(jsonBody);
-						Communication.encryptAndSend(response, this.encDec, os);
-					}
+				
+					this.handleClient(is, os);
 
 					socket.close();
 				} catch (Exception e) {

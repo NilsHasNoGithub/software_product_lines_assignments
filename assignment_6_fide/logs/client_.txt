@@ -1,0 +1,20 @@
+================ Client started =================
+================ Client started =================
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+IO error: java.net.ConnectException: Connection refused (Connection refused)
+================ Client started =================
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.SocketException: Connection reset
+IO error: java.net.SocketException: Connection reset
+================ Client started =================
+Sending message: {"color":[0,0,0],"content":"3242342","username":""}

@@ -20,6 +20,7 @@ public class Client {
     private EncrypterDecrypter encDec;
     private String username;
     private Logger logger;
+    private String password;
 
     public String getUsername() {
         return username;
@@ -38,6 +39,7 @@ public class Client {
         this.host = host;
         this.encDec = encDec;
         this.username = username;
+        this.setPassword("");
         this.logger = new Logger("client_" + username);
         this.logger.log("================ Client started =================");
     }
@@ -93,11 +95,8 @@ public class Client {
             DataInputStream is = new DataInputStream(socket.getInputStream());
             DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 
-
-            authenticate(os);
-            Communication.encryptAndSend(request.toString(), this.encDec, os);
-
-            msgs = new JSONArray(Communication.retrieveAndDecrypt(encDec, is));
+            msgs = handleConnection(request.toString(), is, os);
+            
             socket.close();
         } catch (IOException e) {
             this.logger.log("IO error: " + e.toString());
@@ -106,4 +105,21 @@ public class Client {
         
         return Message.messagesFromJson(msgs);
     }
+    
+    private JSONArray handleConnection(String requestString, DataInputStream is, DataOutputStream os) throws IOException {
+        Communication.encryptAndSend(requestString, this.getEncDec(), os);
+    	return new JSONArray(Communication.retrieveAndDecrypt(getEncDec(), is));
+    }
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public EncrypterDecrypter getEncDec() {
+		return encDec;
+	}
 }
