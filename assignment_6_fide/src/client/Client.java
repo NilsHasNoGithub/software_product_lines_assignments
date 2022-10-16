@@ -65,7 +65,9 @@ public class Client {
     }
 
     public List<Message> requestMessageList() throws IOException {
-        return sendRequest(singleFieldRequest("requestMsgs"));
+    	List<Message> result = sendRequest(singleFieldRequest("requestMsgs"));
+    	
+    	return result;
     }
 
     public List<Message> stopServer() throws IOException {
@@ -73,7 +75,9 @@ public class Client {
     }
 
     public List<Message> sendMessage(String msg) throws IOException {
-        return sendMessage(msg, 0,0,0);
+        List<Message> result = sendMessage(msg, 0,0,0);
+    	
+        return result;
     }   
 
     public List<Message> sendMessage(String content, int r, int g, int b) throws IOException {
